@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NEXUS — Sua próxima missão começa aqui</title>
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Inter,Arial,Helvetica,sans-serif;
+    }
+
+    :root{
+      --bg:#050816;
+      --bg2:#0a1024;
+      --card:#0d1530cc;
+      --line:#1d2a52;
+      --primary:#7c5cff;
+      --secondary:#00e7ff;
+      --text:#f5f7ff;
+      --muted:#9da8c7;
+      --success:#43f3a6;
+      --warning:#ffcc66;
+      --danger:#ff6584;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 20% 10%, rgba(124,92,255,.22), transparent 28%),
+        radial-gradient(circle at 80% 20%, rgba(0,231,255,.15), transparent 24%),
+        linear-gradient(180deg,#050816 0%,#070b18 55%,#03040a 100%);
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.16;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size:42px 42px;
+      mask-image:linear-gradient(to bottom, black, transparent 80%);
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    button{
+      font:inherit;
+    }
+
+    .container{
+      width:min(1160px,92%);
+      margin:auto;
+    }
+
+    nav{
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter:blur(18px);
+      background:rgba(5,8,22,.72);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .nav-wrap{
+      min-height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+
+    .logo{
+      font-weight:900;
+      letter-spacing:4px;
+      font-size:1.35rem;
+      background:linear-gradient(90deg,var(--secondary),#8da2ff,var(--primary));
+      -webkit-background-clip:text;
+      color:transparent;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:28px;
+      color:var(--muted);
+      font-size:.95rem;
+    }
+
+    .nav-links a:hover{
+      color:white;
+    }
+
+    .profile-chip{
+      border:1px solid rgba(124,92,255,.45);
+      background:rgba(124,92,255,.12);
+      padding:10px 14px;
+      border-radius:999px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+    }
+
+    .avatar{
+      width:30px;
+      height:30px;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      color:#031018;
+      font-weight:900;
+    }
+
+    header{
+      min-height:76vh;
+      display:grid;
+      place-items:center;
+      position:relative;
+      padding:80px 0 50px;
+    }
+
+    .hero{
+      text-align:center;
+      max-width:900px;
+    }
+
+    .tag{
+      display:inline-flex;
+      border:1px solid rgba(0,231,255,.35);
+      color:var(--secondary);
+      background:rgba(0,231,255,.08);
+      padding:9px 14px;
+      border-radius:999px;
+      font-size:.8rem;
+      letter-spacing:1.5px;
+      text-transform:uppercase;
+      margin-bottom:24px;
+    }
+
+    h1{
+      font-size:clamp(3rem,8vw,7rem);
+      line-height:.9;
+      letter-spacing:-4px;
+    }
+
+    h1 span{
+      display:block;
+      background:linear-gradient(90deg,#fff 5%,var(--secondary) 45%,var(--primary) 90%);
+      -webkit-background-clip:text;
+      color:transparent;
+    }
+
+    .hero p{
+      margin:28px auto 0;
+      max-width:680px;
+      color:var(--muted);
+      font-size:1.08rem;
+      line-height:1.8;
+    }
+
+    .hero-buttons{
+      margin-top:34px;
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:14px;
+    }
+
+    .btn{
+      border:none;
+      padding:14px 20px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.25s ease;
+      font-weight:800;
+    }
+
+    .btn-primary{
+      color:#06101b;
+      background:linear-gradient(90deg,var(--secondary),#98a7ff);
+      box-shadow:0 0 35px rgba(0,231,255,.18);
+    }
+
+    .btn-secondary{
+      color:white;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+      filter:brightness(1.08);
+    }
+
+    .hero-stats{
+      margin:54px auto 0;
+      max-width:720px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:18px;
+      overflow:hidden;
+      background:rgba(255,255,255,.025);
+      backdrop-filter:blur(10px);
+    }
+
+    .stat{
+      padding:24px;
+      border-right:1px solid rgba(255,255,255,.07);
+    }
+
+    .stat:last-child{
+      border-right:none;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:1.45rem;
+    }
+
+    .stat span{
+      color:var(--muted);
+      font-size:.85rem;
+    }
+
+    section{
+      padding:90px 0;
+    }
+
+    .section-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:20px;
+      margin-bottom:32px;
+    }
+
+    .section-top h2{
+      font-size:clamp(2rem,4vw,3rem);
+      margin-bottom:7px;
+    }
+
+    .section-top p{
+      color:var(--muted);
+    }
+
+    .categories{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:28px;
+    }
+
+    .filter{
+      background:#0b1228;
+      color:var(--muted);
+      border:1px solid var(--line);
+      padding:9px 14px;
+      border-radius:999px;
+      cursor:pointer;
+    }
+
+    .filter.active,
+    .filter:hover{
+      color:white;
+      border-color:var(--primary);
+      background:rgba(124,92,255,.14);
+    }
+
+    .mission-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .mission-card,
+    .panel{
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(180deg,rgba(16,25,54,.88),rgba(8,13,30,.88));
+      border-radius:20px;
+      box-shadow:0 20px 60px rgba(0,0,0,.18);
+    }
+
+    .mission-card{
+      padding:22px;
+      transition:.25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .mission-card::after{
+      content:"";
+      position:absolute;
+      width:130px;
+      height:130px;
+      right:-60px;
+      top:-60px;
+      border-radius:50%;
+      background:var(--primary);
+      filter:blur(70px);
+      opacity:.12;
+    }
+
+    .mission-card:hover{
+      transform:translateY(-6px);
+      border-color:rgba(124,92,255,.38);
+    }
+
+    .mission-head{
+      display:flex;
+      align-items:start;
+      justify-content:space-between;
+      gap:15px;
+    }
+
+    .mission-icon{
+      width:46px;
+      height:46px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      background:rgba(0,231,255,.09);
+      border:1px solid rgba(0,231,255,.2);
+      font-size:1.3rem;
+    }
+
+    .difficulty{
+      font-size:.75rem;
+      padding:6px 9px;
+      border-radius:999px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .easy{color:var(--success);}
+    .medium{color:var(--warning);}
+    .hard{color:var(--danger);}
+
+    .mission-card h3{
+      margin:18px 0 8px;
+      font-size:1.2rem;
+    }
+
+    .mission-card p{
+      min-height:70px;
+      color:var(--muted);
+      font-size:.92rem;
+      line-height:1.6;
+    }
+
+    .mission-meta{
+      border-top:1px solid rgba(255,255,255,.07);
+      margin-top:18px;
+      padding-top:16px;
+      display:flex;
+      justify-content:space-between;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+
+    .xp{
+      color:var(--secondary);
+      font-weight:900;
+    }
+
+    .mission-card .btn{
+      width:100%;
+      margin-top:17px;
+      padding:11px 14px;
+    }
+
+    .dashboard{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+    }
+
+    .panel{
+      padding:26px;
+    }
+
+    .profile-main{
+      display:flex;
+      gap:20px;
+      align-items:center;
+    }
+
+    .big-avatar{
+      width:82px;
+      height:82px;
+      min-width:82px;
+      display:grid;
+      place-items:center;
+      border-radius:22px;
+      background:linear-gradient(135deg,var(--primary),var(--secondary));
+      font-size:2rem;
+      font-weight:900;
+      color:#06101b;
+      box-shadow:0 0 35px rgba(124,92,255,.24);
+    }
+
+    .profile-main h3{
+      font-size:1.6rem;
+      margin-bottom:4px;
+    }
+
+    .profile-main p{
+      color:var(--muted);
+    }
+
+    .level-row{
+      margin-top:24px;
+      display:flex;
+      justify-content:space-between;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .progress{
+      height:10px;
+      background:#050a18;
+      border-radius:999px;
+      overflow:hidden;
+      margin-top:9px;
+      border:1px solid rgba(255,255,255,.05);
+    }
+
+    .progress > div{
+      width:68%;
+      height:100%;
+      background:linear-gradient(90deg,var(--primary),var(--secondary));
+    }
+
+    .profile-stats{
+      margin-top:25px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .profile-stat{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:14px;
+      padding:17px;
+    }
+
+    .profile-stat strong{
+      font-size:1.3rem;
+      display:block;
+    }
+
+    .profile-stat span{
+      color:var(--muted);
+      font-size:.8rem;
+    }
+
+    .achievements{
+      display:flex;
+      gap:12px;
+      margin-top:22px;
+      flex-wrap:wrap;
+    }
+
+    .badge{
+      width:50px;
+      height:50px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);
+      font-size:1.3rem;
+    }
+
+    .rank-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    .rank-item{
+      display:grid;
+      grid-template-columns:36px 1fr auto;
+      align-items:center;
+      gap:12px;
+      padding:13px;
+      border-radius:14px;
+      background:rgba(255,255,255,.035);
+      border:1px solid rgba(255,255,255,.055);
+    }
+
+    .rank-num{
+      color:var(--muted);
+      font-weight:900;
+      text-align:center;
+    }
+
+    .rank-user{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .rank-user .avatar{
+      width:34px;
+      height:34px;
+      font-size:.85rem;
+    }
+
+    .rank-user span{
+      display:block;
+      font-weight:800;
+    }
+
+    .rank-user small{
+      color:var(--muted);
+    }
+
+    .rank-xp{
+      color:var(--secondary);
+      font-weight:900;
+      font-size:.88rem;
+    }
+
+    footer{
+      padding:38px 0 50px;
+      color:var(--muted);
+      border-top:1px solid rgba(255,255,255,.06);
+      text-align:center;
+    }
+
+    .toast{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      background:#0d1731;
+      color:white;
+      border:1px solid rgba(0,231,255,.3);
+      padding:14px 16px;
+      border-radius:14px;
+      box-shadow:0 18px 60px rgba(0,0,0,.4);
+      opacity:0;
+      transform:translateY(16px);
+      pointer-events:none;
+      transition:.25s ease;
+      z-index:50;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    @media(max-width:900px){
+      .mission-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .dashboard{
+        grid-template-columns:1fr;
+      }
+
+      .nav-links{
+        display:none;
+      }
+    }
+
+    @media(max-width:620px){
+      h1{
+        letter-spacing:-2px;
+      }
+
+      .mission-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero-stats{
+        grid-template-columns:1fr;
+      }
+
+      .stat{
+        border-right:none;
+        border-bottom:1px solid rgba(255,255,255,.07);
+      }
+
+      .stat:last-child{
+        border-bottom:none;
+      }
+
+      .profile-stats{
+        grid-template-columns:1fr;
+      }
+
+      .profile-chip span{
+        display:none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="container nav-wrap">
+      <a href="#" class="logo">NEXUS</a>
+
+      <div class="nav-links">
+        <a href="#missoes">Missões</a>
+        <a href="#perfil">Perfil</a>
+        <a href="#ranking">Ranking</a>
+      </div>
+
+      <a href="#perfil" class="profile-chip">
+        <div class="avatar">R</div>
+        <span>Nível 12</span>
+      </a>
+    </div>
+  </nav>
+
+  <header>
+    <div class="container hero">
+      <div class="tag">Sistema de missões online</div>
+
+      <h1>
+        SUA PRÓXIMA
+        <span>MISSÃO COMEÇA AQUI</span>
+      </h1>
+
+      <p>
+        Complete desafios, ganhe XP, desbloqueie conquistas e dispute posições no ranking global da NEXUS.
+        Tecnologia, games, conhecimento, criatividade e esportes em uma única plataforma.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#missoes" class="btn btn-primary">Explorar missões</a>
+        <a href="#perfil" class="btn btn-secondary">Acessar perfil</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <strong>2.480+</strong>
+          <span>Agentes ativos</span>
+        </div>
+        <div class="stat">
+          <strong>148</strong>
+          <span>Missões disponíveis</span>
+        </div>
+        <div class="stat">
+          <strong>1,2M</strong>
+          <span>XP conquistado</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="missoes">
+      <div class="container">
+        <div class="section-top">
+          <div>
+            <h2>Missões em destaque</h2>
+            <p>Escolha seu próximo desafio e avance no ranking.</p>
+          </div>
+        </div>
+
+        <div class="categories">
+          <button class="filter active" data-filter="all">Todas</button>
+          <button class="filter" data-filter="Tecnologia">Tecnologia</button>
+          <button class="filter" data-filter="Games">Games</button>
+          <button class="filter" data-filter="Conhecimento">Conhecimento</button>
+          <button class="filter" data-filter="Criatividade">Criatividade</button>
+          <button class="filter" data-filter="Esportes">Esportes</button>
+        </div>
+
+        <div class="mission-grid">
+          <article class="mission-card" data-category="Tecnologia">
+            <div class="mission-head">
+              <div class="mission-icon">💻</div>
+              <span class="difficulty medium">MÉDIA</span>
+            </div>
+            <h3>Construa uma landing page</h3>
+            <p>Crie uma página moderna usando HTML e CSS com layout responsivo.</p>
+            <div class="mission-meta">
+              <span class="xp">+450 XP</span>
+              <span>⏱ 3 dias</span>
+            </div>
+            <button class="btn btn-secondary mission-btn">Aceitar missão</button>
+          </article>
+
+          <article class="mission-card" data-category="Games">
+            <div class="mission-head">
+              <div class="mission-icon">🎮</div>
+              <span class="difficulty hard">DIFÍCIL</span>
+            </div>
+            <h3>Conquista lendária</h3>
+            <p>Complete um desafio especial em seu game favorito e registre a conquista.</p>
+            <div class="mission-meta">
+              <span class="xp">+800 XP</span>
+              <span>⏱ 5 dias</span>
+            </div>
+            <button class="btn btn-secondary mission-btn">Aceitar missão</button>
+          </article>
+
+          <article class="mission-card" data-category="Conhecimento">
+            <div class="mission-head">
+              <div class="mission-icon">🧠</div>
+              <span class="difficulty easy">FÁCIL</span>
+            </div>
+            <h3>Quiz Nexus: Universo</h3>
+            <p>Responda corretamente 10 perguntas sobre astronomia e ciência.</p>
+            <div class="mission-meta">
+              <span class="xp">+220 XP</span>
+              <span>⏱ 1 dia</span>
+            </div>
+            <button class="btn btn-secondary mission-btn">Aceitar missão</button>
+          </article>
+
+          <article class="mission-card" data-category="Criatividade">
+            <div class="mission-head">
+              <div class="mission-icon">🎨</div>
+              <span class="difficulty medium">MÉDIA</span>
+            </div>
+            <h3>Poster do futuro</h3>
+            <p>Crie um pôster visual imaginando como será uma cidade no ano de 2100.</p>
+            <div class="mission-meta">
+              <span class="xp">+500 XP</span>
+              <span>⏱ 4 dias</span>
+            </div>
+            <button class="btn btn-secondary mission-btn">Aceitar missão</button>
+          </article>
+
+          <article class="mission-card" data-category="Esportes">
+            <div class="mission-head">
+              <div class="mission-icon">🏃</div>
+              <span class="difficulty easy">FÁCIL</span>
+            </div>
+            <h3>Sequência ativa</h3>
+            <p>Registre uma atividade esportiva em três dias diferentes durante a semana.</p>
+            <div class="mission-meta">
+              <span class="xp">+300 XP</span>
+              <span>⏱ 7 dias</span>
+            </div>
+            <button class="btn btn-secondary mission-btn">Aceitar missão</button>
+          </article>
+
+          <article class="mission-card" data-category="Tecnologia">
+            <div class="mission-head">
+              <div class="mission-icon">🤖</div>
+              <span class="difficulty hard">DIFÍCIL</span>
+            </div>
+            <h3>Crie um protótipo de IA</h3>
+            <p>Monte a ideia e o fluxo de uma ferramenta fictícia baseada em inteligência artificial.</p>
+            <div class="mission-meta">
+              <span class="xp">+950 XP</span>
+              <span>⏱ 7 dias</span>
+            </div>
+            <button class="btn btn-secondary mission-btn">Aceitar missão</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="perfil">
+      <div class="container">
+        <div class="section-top">
+          <div>
+            <h2>Central do agente</h2>
+            <p>Acompanhe seu progresso dentro da NEXUS.</p>
+          </div>
+        </div>
+
+        <div class="dashboard">
+          <div class="panel">
+            <div class="profile-main">
+              <div class="big-avatar">R</div>
+              <div>
+                <h3>Rafael_NX</h3>
+                <p>Agente Nível 12 • Classe Explorador</p>
+              </div>
+            </div>
+
+            <div class="level-row">
+              <span>XP atual: 6.840</span>
+              <span>10.000 XP para o nível 13</span>
+            </div>
+
+            <div class="progress">
+              <div></div>
+            </div>
+
+            <div class="profile-stats">
+              <div class="profile-stat">
+                <strong>6.840</strong>
+                <span>XP acumulado</span>
+              </div>
+              <div class="profile-stat">
+                <strong>27</strong>
+                <span>Missões concluídas</span>
+              </div>
+              <div class="profile-stat">
+                <strong>8</strong>
+                <span>Conquistas</span>
+              </div>
+            </div>
+
+            <h3 style="margin-top:28px;">Conquistas</h3>
+            <div class="achievements">
+              <div class="badge" title="Primeira missão">⚡</div>
+              <div class="badge" title="5 missões completas">🏆</div>
+              <div class="badge" title="Especialista em tecnologia">💻</div>
+              <div class="badge" title="Top 100">🚀</div>
+              <div class="badge" title="Sequência de 7 dias">🔥</div>
+            </div>
+          </div>
+
+          <div class="panel" id="ranking">
+            <h3 style="font-size:1.45rem;">Ranking global</h3>
+            <p style="color:var(--muted); margin-top:5px;">Top agentes por XP.</p>
+
+            <div class="rank-list">
+              <div class="rank-item">
+                <div class="rank-num">1</div>
+                <div class="rank-user">
+                  <div class="avatar">K</div>
+                  <div><span>Kira.exe</span><small>Nível 31</small></div>
+                </div>
+                <div class="rank-xp">28.940 XP</div>
+              </div>
+
+              <div class="rank-item">
+                <div class="rank-num">2</div>
+                <div class="rank-user">
+                  <div class="avatar">L</div>
+                  <div><span>LucyZero</span><small>Nível 29</small></div>
+                </div>
+                <div class="rank-xp">27.620 XP</div>
+              </div>
+
+              <div class="rank-item">
+                <div class="rank-num">3</div>
+                <div class="rank-user">
+                  <div class="avatar">V</div>
+                  <div><span>Vortex</span><small>Nível 28</small></div>
+                </div>
+                <div class="rank-xp">25.810 XP</div>
+              </div>
+
+              <div class="rank-item">
+                <div class="rank-num">42</div>
+                <div class="rank-user">
+                  <div class="avatar">R</div>
+                  <div><span>Rafael_NX</span><small>Nível 12</small></div>
+                </div>
+                <div class="rank-xp">6.840 XP</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      NEXUS © 2026 — Plataforma fictícia de missões e desafios.
+    </div>
+  </footer>
+
+  <div class="toast" id="toast">Missão adicionada ao seu perfil.</div>
+
+  <script>
+    const filters = document.querySelectorAll('.filter');
+    const cards = document.querySelectorAll('.mission-card');
+    const toast = document.getElementById('toast');
+
+    filters.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filters.forEach(f => f.classList.remove('active'));
+        btn.classList.add('active');
+
+        const selected = btn.dataset.filter;
+
+        cards.forEach(card => {
+          card.style.display =
+            selected === 'all' || card.dataset.category === selected
+              ? 'block'
+              : 'none';
+        });
+      });
+    });
+
+    document.querySelectorAll('.mission-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.textContent = 'Missão aceita ✓';
+        btn.style.borderColor = 'rgba(67,243,166,.45)';
+        btn.style.color = '#43f3a6';
+
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2200);
+      });
+    });
+  </script>
+</body>
+</html>
